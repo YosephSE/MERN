@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "node --watch --env-file=.env backend/server.js"
+    "server": "node --watch --env-file=.env backend/server.js"
   },
   "keywords": [],
   "author": "",
