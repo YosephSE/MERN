@@ -2,9 +2,10 @@ import { protect } from "../middlware/authmiddleware.js";
 import express from "express";
 const Router = express.Router();
 import Post from "../models/postModel.js";
+import User from "../models/userModel.js";
 import mongoose from "mongoose";
 
-Router.post("/", protect,  async (req, res) => {
+Router.post("/", protect, async (req, res) => {
   try {
     const { title, content, authorId, category, image } = req.body;
 
@@ -22,8 +23,6 @@ Router.post("/", protect,  async (req, res) => {
       authorId,
       category,
       image,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     });
 
     const savedPost = await newPost.save();
@@ -37,7 +36,10 @@ Router.post("/", protect,  async (req, res) => {
 
 Router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate({
+      path: "authorId",
+      select: "name",
+    });
     res.json(posts);
   } catch (err) {
     console.error("Error retrieving posts:", err);

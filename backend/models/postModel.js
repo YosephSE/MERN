@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import User from "./userModel.js";
 const postSchema = mongoose.Schema({
   title: {
     type: String,
@@ -15,6 +15,7 @@ const postSchema = mongoose.Schema({
   authorId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: "User",
   },
   category: {
     type: String,
