@@ -47,4 +47,25 @@ Router.get("/", async (req, res) => {
   }
 });
 
+Router.get("/:id", async (req, res) => {
+  const postId = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
+    return res.status(400).json({ error: "Invalid post ID" });
+  }
+
+  try {
+    const post = await Post.findOne({ _id: postId });
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.status(200).json({ post });
+  } catch (err) {
+    console.error("Error retrieving posts:", err);
+    res.status(500).json({ error: "An error occurred while retrieving posts" });
+  }
+});
+
 export default Router;
