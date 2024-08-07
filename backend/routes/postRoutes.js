@@ -55,7 +55,10 @@ Router.get("/:id", async (req, res) => {
   }
 
   try {
-    const post = await Post.findOne({ _id: postId });
+    const post = await Post.findOne({ _id: postId }).populate({
+      path: "authorId",
+      select: "name",
+    });
 
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
@@ -65,6 +68,36 @@ Router.get("/:id", async (req, res) => {
   } catch (err) {
     console.error("Error retrieving posts:", err);
     res.status(500).json({ error: "An error occurred while retrieving posts" });
+  }
+});
+
+Router.put("/:id", protect, async (req, res) => {
+  const postId = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
+    return res.status(400).json({ message: "Invalid post ID" });
+  }
+
+  const { title, content, category, image } = req.body;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    if (title) post.title = title;
+    if (content) post.content = content;
+    if (category) post.category = category;
+    if (image) post.image = image;
+
+    const updatedPost = await post.save();
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
