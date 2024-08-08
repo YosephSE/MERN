@@ -32,11 +32,6 @@ const postSchema = mongoose.Schema({
   },
   comments: [
     {
-      commentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        auto: true,
-      },
       authorId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
