@@ -133,4 +133,35 @@ const editPost = async (req, res) => {
   }
 };
 
-export { deletePost, createPost, editPost, singlePost, allPosts };
+
+const addComment = async (req, res) => {
+    const postId = req.params.postId;
+  
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      return res.status(400).json({ message: "Invalid postId format" });
+    }
+  
+    const { authorId, content } = req.body;
+    console.log(authorId, content);
+    if (!authorId || !content) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+  
+    try {
+      const post = await Post.findById(postId);
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      const newComment = {
+        authorId: authorId,
+        content: content,
+      };
+      post.comments.push(newComment);
+      const updatedPost = await post.save();
+      res.status(201).json(updatedPost);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  }
+export { deletePost, createPost, editPost, singlePost, allPosts, addComment };
