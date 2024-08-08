@@ -20,6 +20,6 @@ Router.put("/:id", protect, editPost);
 
 Router.delete("/:id", protect, deletePost);
 
-Router.post("/:postId/comment", protect, addCommentomment);
+Router.post("/:postId/comment", protect, addComment);
 
 export default Router;
