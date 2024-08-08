@@ -34,11 +34,7 @@ const deletePost = async (req, res) => {
 const createPost = async (req, res) => {
   try {
     const { title, content, authorId, category, image } = req.body;
-    console.log(title);
-    console.log(content);
-    console.log(authorId);
-    console.log(category);
-    console.log(image);
+
     if (!title || !content || !authorId || !category || !image) {
       return res.status(400).json({ message: "All fields are required" });
     }
