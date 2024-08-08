@@ -76,8 +76,29 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 const allAuthors = async (req, res) => {
-  const authors = await User.find({}, { name: 1, profilePicture: 1 });
-  res.status(200).json(authors);
+  try {
+    const authors = await User.aggregate([
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "authorId",
+          as: "posts",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          profilePicture: 1,
+          count: { $size: "$posts" },
+        },
+      },
+    ]);
+
+    res.status(200).json(authors);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
 };
 
 export {
