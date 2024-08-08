@@ -18,6 +18,9 @@ conncetDB();
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/chatbot", chatBot);
+app.get('/', (req, res) =>{
+    res.status(200).json({message: "Successfully Deployed"})
+})
 
 app.use(notFound);
 app.use(errorHandler);
