@@ -63,13 +63,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       user.password = req.body.password;
     }
     const updatedUser = await user.save();
-    res
-      .status(200)
-      .json({
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-      });
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+    });
   } else {
     res.status(404);
     throw new Error("User not found");
@@ -77,10 +75,16 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "update User Profile" });
 });
 
+const allAuthors = async (req, res) => {
+  const authors = await User.find({}, { name: 1, profilePicture: 1 });
+  res.status(200).json(authors);
+};
+
 export {
   authUser,
   registerUser,
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  allAuthors,
 };
