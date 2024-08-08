@@ -87,6 +87,12 @@ Router.put("/:id", protect, async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
+    if (post.authorId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "User not authorized to update this post" });
+    }
+
     if (title) post.title = title;
     if (content) post.content = content;
     if (category) post.category = category;
