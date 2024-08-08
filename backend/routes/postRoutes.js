@@ -107,4 +107,32 @@ Router.put("/:id", protect, async (req, res) => {
   }
 });
 
+Router.delete("/:id", protect, async (req, res) => {
+  const postId = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
+    return res.status(400).json({ message: "Invalid post ID" });
+  }
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    if (post.authorId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "User not authorized to delete this post" });
+    }
+
+    await post.deleteOne();
+
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 export default Router;
