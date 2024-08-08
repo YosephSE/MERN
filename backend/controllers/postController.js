@@ -133,35 +133,72 @@ const editPost = async (req, res) => {
   }
 };
 
-
 const addComment = async (req, res) => {
-    const postId = req.params.postId;
-  
-    if (!mongoose.Types.ObjectId.isValid(postId)) {
-      return res.status(400).json({ message: "Invalid postId format" });
-    }
-  
-    const { authorId, content } = req.body;
-    console.log(authorId, content);
-    if (!authorId || !content) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-  
-    try {
-      const post = await Post.findById(postId);
-      if (!post) {
-        return res.status(404).json({ message: "Post not found" });
-      }
-      const newComment = {
-        authorId: authorId,
-        content: content,
-      };
-      post.comments.push(newComment);
-      const updatedPost = await post.save();
-      res.status(201).json(updatedPost);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
-    }
+  const postId = req.params.postId;
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
+    return res.status(400).json({ message: "Invalid postId format" });
   }
-export { deletePost, createPost, editPost, singlePost, allPosts, addComment };
+
+  const { authorId, content } = req.body;
+  console.log(authorId, content);
+  if (!authorId || !content) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+    const newComment = {
+      authorId: authorId,
+      content: content,
+    };
+    post.comments.push(newComment);
+    const updatedPost = await post.save();
+    res.status(201).json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const deleteComment = async (req, res) => {
+  const { postId, commentId } = req.params;
+
+  if (
+    !mongoose.Types.ObjectId.isValid(postId) ||
+    !mongoose.Types.ObjectId.isValid(commentId)
+  ) {
+    return res
+      .status(400)
+      .json({ message: "Invalid postId or commentId format" });
+  }
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    const commentIndex = post.comments.findIndex((comment) =>
+      comment._id.equals(commentId)
+    );
+
+    if (commentIndex === -1) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    post.comments.splice(commentIndex, 1);
+
+    await post.save();
+
+    res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+export { deletePost, createPost, editPost, singlePost, allPosts, addComment, deleteComment };

@@ -8,6 +8,7 @@ import {
   editPost,
   deletePost,
   addComment,
+  deleteComment
 } from "../controllers/postController.js";
 
 Router.post("/", protect, createPost);
@@ -21,5 +22,8 @@ Router.put("/:id", protect, editPost);
 Router.delete("/:id", protect, deletePost);
 
 Router.post("/:postId/comment", protect, addComment);
+
+
+Router.delete("/:postId/comment/:commentId", protect, deleteComment)
 
 export default Router;
