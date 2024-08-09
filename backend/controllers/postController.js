@@ -33,7 +33,8 @@ const deletePost = async (req, res) => {
 
 const createPost = async (req, res) => {
   try {
-    const { title, content, authorId, category, image } = req.body;
+    const authorId = req.user._id;
+    const { title, content, category, image } = req.body;
 
     if (!title || !content || !authorId || !category || !image) {
       return res.status(400).json({ message: "All fields are required" });
@@ -201,4 +202,12 @@ const deleteComment = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-export { deletePost, createPost, editPost, singlePost, allPosts, addComment, deleteComment };
+export {
+  deletePost,
+  createPost,
+  editPost,
+  singlePost,
+  allPosts,
+  addComment,
+  deleteComment,
+};
