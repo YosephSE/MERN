@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  status,
   authUser,
   registerUser,
   logoutUser,
@@ -12,6 +13,7 @@ import { protect } from "../middlware/authmiddleware.js";
 const Router = express.Router();
 
 Router.post("/", registerUser);
+Router.get("/status", status)
 Router.post("/auth", authUser);
 Router.post("/logout", logoutUser);
 Router.get("/profile", protect, getUserProfile);

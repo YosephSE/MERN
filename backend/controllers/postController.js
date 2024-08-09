@@ -141,8 +141,8 @@ const addComment = async (req, res) => {
     return res.status(400).json({ message: "Invalid postId format" });
   }
 
-  const { authorId, content } = req.body;
-  console.log(authorId, content);
+  const authorId = req.user._id;
+  const { content } = req.body;
   if (!authorId || !content) {
     return res.status(400).json({ message: "All fields are required" });
   }
