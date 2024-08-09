@@ -82,19 +82,27 @@ const singlePost = async (req, res) => {
   }
 
   try {
-    const post = await Post.findOne({ _id: postId }).populate({
-      path: "authorId",
-      select: "name",
-    });
+    const post = await Post.findOne({ _id: postId })
+      .populate({
+        path: "authorId",
+        select: "name",
+      })
+      .populate({
+        path: "comments.authorId",
+        select: "name ",
+      });
 
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
 
+    // Return the post with populated author and comments' author details
     res.status(200).json({ post });
   } catch (err) {
-    console.error("Error retrieving posts:", err);
-    res.status(500).json({ error: "An error occurred while retrieving posts" });
+    console.error("Error retrieving post:", err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving the post" });
   }
 };
 

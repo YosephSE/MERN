@@ -35,6 +35,7 @@ const postSchema = mongoose.Schema({
       authorId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref: "User",
       },
       content: {
         type: String,
