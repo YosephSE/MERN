@@ -7,22 +7,22 @@ import userRoutes from "./routes/userRoute.js";
 import postRoutes from "./routes/postRoutes.js";
 import chatBot from "./routes/chatBot.js";
 import conncetDB from "./config/db.js";
-import cors from 'cors'
+import cors from "cors";
 const port = process.env.PORT;
-
 const app = express();
-app.use(cors());
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({ limit:'50mb', extended: true }));
 app.use(cookieParser());
+app.use(cors({ origin: 'https://eyoelm5.github.io', credentials: true }));
+
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 conncetDB();
 
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/chatbot", chatBot);
-app.get('/', (req, res) =>{
-    res.status(200).json({message: "Successfully Deployed"})
-})
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Successfully Deployed" });
+});
 
 app.use(notFound);
 app.use(errorHandler);

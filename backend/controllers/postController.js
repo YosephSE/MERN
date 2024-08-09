@@ -1,5 +1,6 @@
 import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 const deletePost = async (req, res) => {
