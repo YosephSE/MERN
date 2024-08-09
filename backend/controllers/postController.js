@@ -89,7 +89,7 @@ const singlePost = async (req, res) => {
       })
       .populate({
         path: "comments.authorId",
-        select: "name ",
+        select: "name profilePicture ",
       });
 
     if (!post) {
