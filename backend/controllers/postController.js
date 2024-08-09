@@ -85,7 +85,7 @@ const singlePost = async (req, res) => {
     const post = await Post.findOne({ _id: postId })
       .populate({
         path: "authorId",
-        select: "name",
+        select: "name profilePicture",
       })
       .populate({
         path: "comments.authorId",
