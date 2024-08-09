@@ -11,7 +11,7 @@ const status = asyncHandler(async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.userId);
-    res.json({ loggedIn: true, user: user.name });
+    res.json({ loggedIn: true, user: user.name, userId: user._id });
   } catch (error) {
     res.json({ loggedIn: false });
   }
