@@ -7,9 +7,11 @@ import userRoutes from "./routes/userRoute.js";
 import postRoutes from "./routes/postRoutes.js";
 import chatBot from "./routes/chatBot.js";
 import conncetDB from "./config/db.js";
+import cors from 'cors'
 const port = process.env.PORT;
 
 const app = express();
+app.use(cors());
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({ limit:'50mb', extended: true }));
 app.use(cookieParser());
