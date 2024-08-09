@@ -6,7 +6,8 @@ const generateToken = (res, userId) => {
   });
   res.cookie("jwt", token, {
     httpOnly: true,
-    sameSite: "strict",
+    secure: true,
+    sameSite: "None",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 };
