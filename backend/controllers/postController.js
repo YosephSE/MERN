@@ -176,9 +176,6 @@ const addComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   const { postId, commentId } = req.params;
-  const newCommentId = new mongoose.Types.ObjectId(commentId);
-  console.log(commentId)
-  console.log(newCommentId)
 
   // if (
   //   !mongoose.Types.ObjectId.isValid(postId) ||
@@ -197,7 +194,7 @@ const deleteComment = async (req, res) => {
     }
 
     const commentIndex = post.comments.findIndex((comment) =>
-      comment._id.equals(newCommentId)
+      comment._id.equals(commentId)
     );
 
     if (commentIndex === -1) {

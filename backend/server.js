@@ -11,7 +11,13 @@ import cors from "cors";
 const port = process.env.PORT;
 const app = express();
 app.use(cookieParser());
-app.use(cors({ origin: 'https://eyoelm5.github.io', credentials: true }));
+app.use(
+  cors({
+    origin: "https://eyoelm5.github.io",
+    credentials: true,
+    allowedHeaders:  '*',
+  })
+);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
