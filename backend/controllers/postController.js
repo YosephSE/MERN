@@ -177,14 +177,14 @@ const addComment = async (req, res) => {
 const deleteComment = async (req, res) => {
   const { postId, commentId } = req.params;
 
-  if (
-    !mongoose.Types.ObjectId.isValid(postId) ||
-    !mongoose.Types.ObjectId.isValid(commentId)
-  ) {
-    return res
-      .status(400)
-      .json({ message: "Invalid postId or commentId format" });
-  }
+  // if (
+  //   !mongoose.Types.ObjectId.isValid(postId) ||
+  //   !mongoose.Types.ObjectId.isValid(commentId)
+  // ) {
+  //   return res
+  //     .status(400)
+  //     .json({ message: "Invalid postId or commentId format" });
+  // }
 
   try {
     const post = await Post.findById(postId);
