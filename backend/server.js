@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: "https://eyoelm5.github.io",
     credentials: true,
-    allowedHeaders:  '*',
+    allowedHeaders: ["Content-Type", "Set-Cookie"],
   })
 );
 
