@@ -8,7 +8,7 @@ import postRoutes from "./routes/postRoutes.js";
 import chatBot from "./routes/chatBot.js";
 import conncetDB from "./config/db.js";
 import cors from "cors";
-const port = process.env.PORT;
+const port = 5000;
 const app = express();
 app.use(cookieParser());
 app.use(
